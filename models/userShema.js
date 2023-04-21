@@ -7,6 +7,7 @@ const userShema = Schema(
   {
     name: {
       type: String,
+      required: [true, "Name is required"],
     },
     email: {
       type: String,
@@ -19,15 +20,19 @@ const userShema = Schema(
     },
     phone: {
       type: String,
+      default: "",
     },
     birthday: {
       type: String,
+      default: "",
     },
     telegram: {
       type: String,
+      default: "",
     },
     avatarURL: {
       type: String,
+      default: "",
       // required: true,
     },
     token: {
