@@ -1,6 +1,7 @@
 const { Schema, model } = require("mongoose");
 const Joi = require("joi");
-// const JoiPhone = require("joi-phone-number");
+const JoiPhone = require("joi-phone-number");
+const bcrypt = require('bcryptjs');
 
 const userShema = Schema({
   name: {
@@ -41,6 +42,21 @@ const userShema = Schema({
     // required: [true, "Verify token is required"],
   },
 });
+
+
+userShema.pre('save', async function (next) {
+
+  if (!this.isModified('password')) return next();
+
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+  
+  next();
+});
+
+// Custom method
+userShema.methods.checkPassword = (candidate, hash) => bcrypt.compare(candidate, hash);
+
 
 const User = model("user", userShema);
 
