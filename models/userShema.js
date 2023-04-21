@@ -47,7 +47,7 @@ const User = model("user", userShema);
 const regJoiSchema = Joi.object({
   userName: Joi.string().max(16).required(),
   email: Joi.string().required(),
-  password: Joi.string().min(6).required(),
+  password: Joi.string().required(),
 });
 
 const loginJoiSchema = Joi.object({
