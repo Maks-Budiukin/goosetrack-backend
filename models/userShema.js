@@ -1,62 +1,55 @@
 const { Schema, model } = require("mongoose");
 const Joi = require("joi");
-const JoiPhone = require("joi-phone-number");
-const bcrypt = require('bcryptjs');
+// const JoiPhone = require("joi-phone-number");
+const bcrypt = require("bcryptjs");
 
-const userShema = Schema({
-  name: {
-    type: String,
+const userShema = Schema(
+  {
+    name: {
+      type: String,
+    },
+    email: {
+      type: String,
+      required: [true, "Email is required"],
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: [true, "Password is required"],
+    },
+    phone: {
+      type: String,
+    },
+    birthday: {
+      type: String,
+    },
+    telegram: {
+      type: String,
+    },
+    avatarURL: {
+      type: String,
+      // required: true,
+    },
+    token: {
+      type: String,
+      default: null,
+    },
   },
-  email: {
-    type: String,
-    required: [true, "Email is required"],
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: [true, "Password is required"],
-  },
-  phone: {
-    type: String,
-  },
-  birthday: {
-    type: String,
-  },
-  telegram: {
-    type: String,
-  },
-  avatarURL: {
-    type: String,
-    // required: true,
-  },
-  token: {
-    type: String,
-    default: null,
-  },
-  verify: {
-    type: Boolean,
-    default: false,
-  },
-  verificationToken: {
-    type: String,
-    // required: [true, "Verify token is required"],
-  },
-});
+  { versionKey: false, timestamps: true }
+);
 
-
-userShema.pre('save', async function (next) {
-
-  if (!this.isModified('password')) return next();
+userShema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
 
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
-  
+
   next();
 });
 
 // Custom method
-userShema.methods.checkPassword = (candidate, hash) => bcrypt.compare(candidate, hash);
-
+userShema.methods.checkPassword = (candidate, hash) =>
+  bcrypt.compare(candidate, hash);
 
 const User = model("user", userShema);
 

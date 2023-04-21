@@ -4,10 +4,12 @@ const router = express.Router();
 
 const { user: ctrl } = require("../../controllers");
 
-router.post("/current", ctrl.getCurrent);
+const protect = require("../../middlewares/user/protect");
 
-router.get("/logout", ctrl.logout);
+router.post("/current", ctrl.current);
 
-router.patch("/info", ctrl.updateUser);
+router.get("/logout", protect, ctrl.logout);
+
+router.patch("/info", ctrl.updateInfo);
 
 module.exports = router;

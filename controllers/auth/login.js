@@ -6,8 +6,7 @@ const login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email }).select("+password");
-  console.log("USER", user);
-  console.log("password", password);
+
   const err = createHttpError.Unauthorized("Email or password is wrong");
 
   if (!user) return next(err);
@@ -20,7 +19,15 @@ const login = catchAsync(async (req, res, next) => {
 
   await User.findByIdAndUpdate(user._id, { token });
 
-  res.status(201).json({});
+  res.json({
+    result: {
+      token,
+      user: {
+        email: user.email,
+        name: user.name,
+      },
+    },
+  });
 });
 
 module.exports = login;
