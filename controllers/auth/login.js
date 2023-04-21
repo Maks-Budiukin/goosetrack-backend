@@ -1,4 +1,4 @@
-const { User } = require("../../models/userShema");
+const { User } = require("../../models");
 const createHttpError = require("http-errors");
 const { catchAsync, createSignToken } = require("../../utils");
 

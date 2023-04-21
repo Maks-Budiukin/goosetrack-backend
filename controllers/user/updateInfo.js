@@ -1,4 +1,4 @@
-const User = require("../..//models/userShema");
+const {User} = require("../../models");
 const { catchAsync } = require("../../utils");
 
 const updateInfo = catchAsync(async (req, res, next) => {

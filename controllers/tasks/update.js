@@ -1,4 +1,4 @@
-const Task = require("../../models/taskShema");
+const {Task} = require("../../models");
 const createHttpError = require("http-errors");
 const { catchAsync } = require("../../utils");
 

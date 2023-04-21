@@ -4,11 +4,13 @@ const router = express.Router();
 
 const { user: ctrl } = require("../../controllers");
 
-const protect = require("../../middlewares/user/protect");
+const  {protect}  = require("../../middlewares/user/protect");
+
+router.use(protect)
 
 router.post("/current", ctrl.current);
 
-router.get("/logout", protect, ctrl.logout);
+router.get("/logout", ctrl.logout);
 
 router.patch("/info", ctrl.updateInfo);
 
