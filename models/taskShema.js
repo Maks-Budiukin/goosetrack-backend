@@ -38,7 +38,7 @@ const Task = model("contact", taskShema);
 
 const taskJoiSchema = Joi.object({
   titleTask: Joi.string().max(250).required(),
-  dateTask: Joi.date().format("YYYY-MM-DD").required(),
+  // dateTask: Joi.date().format("YYYY-MM-DD").required(),
   startTimeTask: Joi.string()
     .regex(/^([0-9]{2})\:([0-9]{2})$/)
     .required(),
@@ -46,8 +46,8 @@ const taskJoiSchema = Joi.object({
     .regex(/^([0-9]{2})\:([0-9]{2})$/)
     .required()
     .min(Joi.ref("startTimeTask")),
-  priorityTask: Joi.string().only(["low", "medium", "high"]).required(),
-  categoryTask: Joi.string().only(["toDo", "inProgress", "done"]).required(),
+  // priorityTask: Joi.string().only(["low", "medium", "high"]).required(),
+  // categoryTask: Joi.string().only(["toDo", "inProgress", "done"]).required(),
 });
 
 module.exports = {
