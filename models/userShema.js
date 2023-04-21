@@ -47,18 +47,18 @@ const User = model("user", userShema);
 const regJoiSchema = Joi.object({
   userName: Joi.string().max(16).required(),
   email: Joi.string().required(),
-  password: Joi.string().required(),
+  password: Joi.string().min(6).required(),
 });
 
 const loginJoiSchema = Joi.object({
   email: Joi.string().required(),
-  password: Joi.string().min(6).required(),
+  password: Joi.string().required(),
 });
 
 const userPageJoiSchema = Joi.object({
   userName: Joi.string().max(16).required(),
   email: Joi.string().required(),
-  password: Joi.string().min(6).required(),
+  password: Joi.string().required(),
   phone: JoiPhone.string().phoneNumber({ defaultCountry: "UA", format: "e164" }).validate("494322456"),
   birthday: Joi.date().format("YYYY-MM-DD"),
   telegram: Joi.string().max(16),
