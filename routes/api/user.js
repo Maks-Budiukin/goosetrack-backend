@@ -2,7 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 
-const { auth: ctrl } = require("../../controllers");
+const { user: ctrl } = require("../../controllers");
 
 router.post("/current", ctrl.getCurrent);
 
