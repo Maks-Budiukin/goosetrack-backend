@@ -4,7 +4,7 @@ const JoiPhone = require("joi-phone-number");
 const bcrypt = require('bcryptjs');
 
 const userShema = Schema({
-  userName: {
+  name: {
     type: String,
   },
   email: {
@@ -27,7 +27,7 @@ const userShema = Schema({
   },
   avatarURL: {
     type: String,
-    required: true,
+    // required: true,
   },
   token: {
     type: String,
@@ -39,7 +39,7 @@ const userShema = Schema({
   },
   verificationToken: {
     type: String,
-    required: [true, "Verify token is required"],
+    // required: [true, "Verify token is required"],
   },
 });
 
@@ -61,7 +61,7 @@ userShema.methods.checkPassword = (candidate, hash) => bcrypt.compare(candidate,
 const User = model("user", userShema);
 
 const regJoiSchema = Joi.object({
-  userName: Joi.string().max(16).required(),
+  name: Joi.string().max(16).required(),
   email: Joi.string().required(),
   password: Joi.string().min(6).required(),
 });
@@ -74,9 +74,10 @@ const loginJoiSchema = Joi.object({
 const userPageJoiSchema = Joi.object({
   userName: Joi.string().max(16).required(),
   email: Joi.string().required(),
-  password: Joi.string().required(),
-  phone: JoiPhone.string().phoneNumber({ defaultCountry: "UA", format: "e164" }).validate("494322456"),
-  birthday: Joi.date().format("YYYY-MM-DD"),
+  // phone: JoiPhone.string()
+  //   .phoneNumber({ defaultCountry: "UA", format: "e164" })
+  //   .validate("494322456"),
+  // birthday: Joi.date().format("YYYY-MM-DD"),
   telegram: Joi.string().max(16),
 });
 

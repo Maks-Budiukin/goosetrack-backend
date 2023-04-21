@@ -1,14 +1,16 @@
-const Contacts = require('../../models/contact/contactsSchema');
-const { catchAsync } = require('../../utils');
+const User = require("../..//models/userShema");
+const { catchAsync } = require("../../utils");
 
 const updateInfo = catchAsync(async (req, res, next) => {
-    const { _id } = req.user;
+  const { _id } = req.user;
 
-    const updatedUser = await Contacts.findByIdAndUpdate(_id, req.body, { new: true });
+  const updatedUser = await User.findByIdAndUpdate(_id, req.body, {
+    new: true,
+  });
 
-    res.status(200).json({
-      updatedUser,
-    });
+  res.status(200).json({
+    updatedUser,
+  });
 });
 
 module.exports = updateInfo;
