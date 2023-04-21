@@ -6,5 +6,5 @@ const user = require("./user");
 module.exports = {
     tasks,
     auth,
-    user
+    user,
 }

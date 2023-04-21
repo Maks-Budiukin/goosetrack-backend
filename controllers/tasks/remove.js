@@ -1,4 +1,4 @@
-const Task = require("../../models/taskShema");
+const {Task} = require("../../models");
 const { catchAsync } = require("../../utils");
 
 const remove = catchAsync(async (req, res, next) => {

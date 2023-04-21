@@ -1,4 +1,4 @@
-const Task = require("../../models/");
+const {Task} = require("../../models/");
 const { catchAsync } = require("../../utils");
 
 const add = catchAsync(async (req, res, next) => {
