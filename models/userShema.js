@@ -58,7 +58,6 @@ const loginJoiSchema = Joi.object({
 const userPageJoiSchema = Joi.object({
   userName: Joi.string().max(16).required(),
   email: Joi.string().required(),
-  password: Joi.string().required(),
   phone: JoiPhone.string().phoneNumber({ defaultCountry: "UA", format: "e164" }).validate("494322456"),
   birthday: Joi.date().format("YYYY-MM-DD"),
   telegram: Joi.string().max(16),
