@@ -4,7 +4,12 @@ const { catchAsync } = require("../../utils");
 
 const register = catchAsync(async (req, res, next) => {
   const { email, password, name } = req.body;
-  console.log(email, password, name);
+
+  const user = await User.findOne({ email });
+  if (user) {
+    throw new createHttpError.Conflict("Email is already in use");
+  }
+
   const newUser = await User.create({ password, email, name });
 
   if (!newUser) return next(createHttpError.NotFound());
