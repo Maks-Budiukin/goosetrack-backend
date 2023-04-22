@@ -1,7 +1,7 @@
 const { User } = require("../../models");
 const { catchAsync } = require("../../utils");
 
-const cloudinary = require("../../utils/uploadImage");
+const cloudinary = require("../../middlewares/user/uploadImage");
 
 const updateAvatar = catchAsync(async (req, res, next) => {
   const { _id } = req.user;
