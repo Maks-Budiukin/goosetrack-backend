@@ -14,4 +14,6 @@ router.get("/logout", ctrl.logout);
 
 router.patch("/info", ctrl.updateInfo);
 
+router.post("/info", ctrl.updateAvatar);
+
 module.exports = router;
