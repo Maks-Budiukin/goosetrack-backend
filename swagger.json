@@ -6,17 +6,17 @@
   },
   "servers": [
     {
-      "url": "https://goosetrack.onrender.com/api-docs"
+      "url": "https://goosetrack.onrender.com/api/docs"
     }
   ],
   "paths": {
     "/auth/register": {
       "post": {
-        "summary": "register user",
         "tags": [
           "AUTH"
         ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
@@ -29,12 +29,32 @@
           "201": {
             "description": "User has been created!"
           },
+          "400": {
+            "description": "Bad request!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBadRequest"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "User already exists!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorConflict"
+                }
+              }
+            }
+          },
           "default": {
             "description": "Internal Server Error",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorServer"
                 }
               }
             }
@@ -44,11 +64,11 @@
     },
     "/auth/login": {
       "post": {
-        "summary": "register user",
         "tags": [
           "AUTH"
         ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
@@ -59,24 +79,243 @@
         },
         "responses": {
           "200": {
-            "description": "User has been logged in!",
+            "description": "User has been created!",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserShort"
+                  "$ref": "#/components/schemas/FullUserToken"
                 }
               }
             }
           },
           "400": {
-            "description": "Bad request!"
+            "description": "Bad request!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBadRequest"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not Found!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorNotFound"
+                }
+              }
+            }
           },
           "default": {
             "description": "Internal Server Error",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorServer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/logout": {
+      "get": {
+        "tags": [
+          "USER"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization Token",
+            "schema": {
+              "type": "string",
+              "format": "jwt"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NDNlN2M4ZjYzMjFhOTJmNmM5YWUxOCIsImlhdCI6MTY4MjE3MTg1OSwiZXhwIjoxNjgyMjU4MjU5fQ.Ka6UbaAghg7kw1MzLPKh3S7YTZ9lzQQ6ENBTopfNsPY",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "User has been logged out!"
+          },
+          "401": {
+            "description": "You are not authoruzed for this action!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorUnauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "This user does not exist!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorNotFound"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorServer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/current": {
+      "get": {
+        "tags": [
+          "USER"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization Token",
+            "schema": {
+              "type": "string",
+              "format": "jwt"
+            },
+            "required": true,
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NDNlN2M4ZjYzMjFhOTJmNmM5YWUxOCIsImlhdCI6MTY4MjE3MTg1OSwiZXhwIjoxNjgyMjU4MjU5fQ.Ka6UbaAghg7kw1MzLPKh3S7YTZ9lzQQ6ENBTopfNsPY"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User has been created!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FullUserNoToken"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "You are not authoruzed for this action!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorUnauthorized"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorServer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/info": {
+      "patch": {
+        "tags": [
+          "USER"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization Token",
+            "schema": {
+              "type": "string",
+              "format": "jwt"
+            },
+            "required": true,
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NDNlN2M4ZjYzMjFhOTJmNmM5YWUxOCIsImlhdCI6MTY4MjE3MTg1OSwiZXhwIjoxNjgyMjU4MjU5fQ.Ka6UbaAghg7kw1MzLPKh3S7YTZ9lzQQ6ENBTopfNsPY"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Robert Nesta Marley"
+                  },
+                  "birthday": {
+                    "type": "string",
+                    "example": "06/02/1945"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "bob-marley@gmail.com"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "example": "555-15-647"
+                  },
+                  "telegram": {
+                    "type": "string",
+                    "example": "@bamboocha"
+                  },
+                  "avatarURL": {
+                    "type": "string",
+                    "example": "http://smile.jpg"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User was updated Updated User:",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FullUserNoToken"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "You are not authorized for this action!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorUnauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not Found!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorNotFound"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorServer"
                 }
               }
             }
@@ -91,13 +330,16 @@
         "type": "object",
         "properties": {
           "name": {
-            "type": "string"
+            "type": "string",
+            "example": "ReggaeBoy"
           },
           "email": {
-            "type": "string"
+            "type": "string",
+            "example": "bob-marley@gmail.com"
           },
           "password": {
-            "type": "string"
+            "type": "string",
+            "example": "takeITeasyBrUh"
           }
         },
         "required": [
@@ -110,10 +352,12 @@
         "type": "object",
         "properties": {
           "email": {
-            "type": "string"
+            "type": "string",
+            "example": "bob-marley@gmail.com"
           },
           "password": {
-            "type": "string"
+            "type": "string",
+            "example": "takeITeasyBrUh555"
           }
         },
         "required": [
@@ -121,65 +365,146 @@
           "password"
         ]
       },
-      "UserShort": {
+      "FullUserNoToken": {
         "type": "object",
         "properties": {
           "name": {
-            "type": "string"
+            "type": "string",
+            "example": "ReggaeBoy"
           },
           "email": {
-            "type": "string"
+            "type": "string",
+            "example": "bob-marley@gmail.com"
           },
-          "token": {
-            "type": "string"
+          "phone": {
+            "type": "string",
+            "example": "555-15-274"
+          },
+          "birthday": {
+            "type": "string",
+            "example": "06/02/1945"
+          },
+          "avatarURL": {
+            "type": "string",
+            "example": "http://smile.jpg"
+          },
+          "telegram": {
+            "type": "string",
+            "example": "bamboocha"
           }
         }
       },
-      "User": {
+      "FullUserToken": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer",
-            "example": 4
-          },
           "name": {
             "type": "string",
-            "example": "Arthur Dent"
+            "example": "ReggaeBoy"
           },
           "email": {
             "type": "string",
-            "example": "snoop-dog@gmail.com"
+            "example": "bob-marley@gmail.com"
           },
           "phone": {
-            "type": "string"
+            "type": "string",
+            "example": "555-15-274"
           },
           "birthday": {
-            "type": "string"
+            "type": "string",
+            "example": "06/02/1945"
           },
           "avatarURL": {
-            "type": "string"
+            "type": "string",
+            "example": "http://smile.jpg"
           },
           "telegram": {
-            "type": "string"
+            "type": "string",
+            "example": "bamboocha"
           },
           "token": {
-            "type": "string"
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NDNlN2M4ZjYzMjFhOTJmNmM5YWUxOCIsImlhdCI6MTY4MjE3MTg1OSwiZXhwIjoxNjgyMjU4MjU5fQ.Ka6UbaAghg7kw1MzLPKh3S7YTZ9lzQQ6ENBTopfNsPY"
           }
-        },
-        "required": [
-          "id",
-          "name",
-          "email"
-        ]
+        }
       },
-      "Error": {
+      "ErrorNotFound": {
         "type": "object",
         "properties": {
           "code": {
-            "type": "integer"
+            "type": "integer",
+            "example": 404
           },
           "message": {
-            "type": "string"
+            "type": "string",
+            "example": "Not Found"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ]
+      },
+      "ErrorBadRequest": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "example": 400
+          },
+          "message": {
+            "type": "string",
+            "example": "Bad request"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ]
+      },
+      "ErrorUnauthorized": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "example": 401
+          },
+          "message": {
+            "type": "string",
+            "example": "Unauthorized"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ]
+      },
+      "ErrorConflict": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "example": 409
+          },
+          "message": {
+            "type": "string",
+            "example": "Conflict! User with such email already exists!"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ]
+      },
+      "ErrorServer": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "example": 500
+          },
+          "message": {
+            "type": "string",
+            "example": "Internal Server Error. Check what you've done. NEVER TRY AGAIN!"
           }
         },
         "required": [
