@@ -134,7 +134,7 @@
               "type": "string",
               "format": "jwt"
             },
-            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NDNlN2M4ZjYzMjFhOTJmNmM5YWUxOCIsImlhdCI6MTY4MjE3MTg1OSwiZXhwIjoxNjgyMjU4MjU5fQ.Ka6UbaAghg7kw1MzLPKh3S7YTZ9lzQQ6ENBTopfNsPY",
+            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NDNlN2M4ZjYzMjFhOTJmNmM5YWUxOCIsImlhdCI6MTY4MjE3MTg1OSwiZXhwIjoxNjgyMjU4MjU5fQ.Ka6UbaAghg7kw1MzLPKh3S7YTZ9lzQQ6ENBTopfNsPY",
             "required": true
           }
         ],
@@ -189,12 +189,12 @@
               "format": "jwt"
             },
             "required": true,
-            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NDNlN2M4ZjYzMjFhOTJmNmM5YWUxOCIsImlhdCI6MTY4MjE3MTg1OSwiZXhwIjoxNjgyMjU4MjU5fQ.Ka6UbaAghg7kw1MzLPKh3S7YTZ9lzQQ6ENBTopfNsPY"
+            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NDNlN2M4ZjYzMjFhOTJmNmM5YWUxOCIsImlhdCI6MTY4MjE3MTg1OSwiZXhwIjoxNjgyMjU4MjU5fQ.Ka6UbaAghg7kw1MzLPKh3S7YTZ9lzQQ6ENBTopfNsPY"
           }
         ],
         "responses": {
           "200": {
-            "description": "User has been created!",
+            "description": "User is valid!",
             "content": {
               "application/json": {
                 "schema": {
@@ -240,7 +240,7 @@
               "format": "jwt"
             },
             "required": true,
-            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NDNlN2M4ZjYzMjFhOTJmNmM5YWUxOCIsImlhdCI6MTY4MjE3MTg1OSwiZXhwIjoxNjgyMjU4MjU5fQ.Ka6UbaAghg7kw1MzLPKh3S7YTZ9lzQQ6ENBTopfNsPY"
+            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NDNlN2M4ZjYzMjFhOTJmNmM5YWUxOCIsImlhdCI6MTY4MjE3MTg1OSwiZXhwIjoxNjgyMjU4MjU5fQ.Ka6UbaAghg7kw1MzLPKh3S7YTZ9lzQQ6ENBTopfNsPY"
           }
         ],
         "requestBody": {
@@ -423,7 +423,7 @@
           },
           "token": {
             "type": "string",
-            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NDNlN2M4ZjYzMjFhOTJmNmM5YWUxOCIsImlhdCI6MTY4MjE3MTg1OSwiZXhwIjoxNjgyMjU4MjU5fQ.Ka6UbaAghg7kw1MzLPKh3S7YTZ9lzQQ6ENBTopfNsPY"
+            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NDNlN2M4ZjYzMjFhOTJmNmM5YWUxOCIsImlhdCI6MTY4MjE3MTg1OSwiZXhwIjoxNjgyMjU4MjU5fQ.Ka6UbaAghg7kw1MzLPKh3S7YTZ9lzQQ6ENBTopfNsPY"
           }
         }
       },
