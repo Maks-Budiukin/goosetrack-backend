@@ -1,10 +1,10 @@
-const {Task} = require("../../models/");
+const {Task} = require("../../models");
 const { catchAsync } = require("../../utils");
 
-const add = catchAsync(async (req, res, next) => {
+const addTask = catchAsync(async (req, res, next) => {
   const newTaskData = {
     ...req.body,
-    owner: req.user,
+    ownerTask: req.user,
   };
   const newTask = await Task.create(newTaskData);
 
@@ -13,4 +13,4 @@ const add = catchAsync(async (req, res, next) => {
   });
 });
 
-module.exports = add;
+module.exports = addTask;

@@ -15,34 +15,23 @@ const protect = catchAsync(async (req, res, next) => {
 
   if (bearer !== "Bearer") return next(err);
 
- 
-
   if (!token) return next(err);
-
-
 
  let decodedToken;
 
  try {
    decodedToken = jwt.verify(token, process.env.JWT_SECRET);
- 
-   
-  
   } catch (error) {
     return next(err);
   }
   
   const user = await User.findById(decodedToken.id);
 
-
   if (!user) return next(err);
 
-  
-
   req.user = user;
-console.log(req.user)
+
   next();
-   console.log('sfvsfssfsd')
 });
 
 

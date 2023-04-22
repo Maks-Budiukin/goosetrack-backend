@@ -2,15 +2,15 @@ const {Task} = require("../../models");
 const createHttpError = require("http-errors");
 const { catchAsync } = require("../../utils");
 
-const update = catchAsync(async (req, res, next) => {
+const updateTask = catchAsync(async (req, res, next) => {
   const taskData = req.body;
 
   if (Object.keys(taskData).length === 0)
     return next(createHttpError.NotFound("missing fields"));
 
-  const { TaskId } = req.params;
+  const { id } = req.params;
 
-  const updatedTask = await Task.findByIdAndUpdate(TaskId, req.body, {
+  const updatedTask = await Task.findByIdAndUpdate(id, req.body, {
     new: true,
   });
 
@@ -19,4 +19,4 @@ const update = catchAsync(async (req, res, next) => {
   });
 });
 
-module.exports = update;
+module.exports = updateTask;
