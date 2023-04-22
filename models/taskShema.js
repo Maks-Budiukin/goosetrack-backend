@@ -32,7 +32,9 @@ const taskShema = Schema({
     enum: ["toDo", "inProgress", "done"],
     default: "toDo",
   },
-});
+},
+{ versionKey: false, timestamps: true }
+);
 
 const Task = model("task", taskShema);
 
