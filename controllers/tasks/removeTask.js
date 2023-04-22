@@ -1,8 +1,15 @@
+const createHttpError = require("http-errors");
 const {Task} = require("../../models");
 const { catchAsync } = require("../../utils");
 
 const removeTask = catchAsync(async (req, res, next) => {
   const { id } = req.params;
+
+  const tasks = await Task.findById(id).select("ownerTask");
+  
+  const { _id } = req.user;
+
+  if (!(tasks.ownerTask.equals(_id))) return next(createHttpError.NotFound());
 
   await Task.findByIdAndRemove(id);
 
