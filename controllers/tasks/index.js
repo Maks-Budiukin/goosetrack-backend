@@ -1,12 +1,12 @@
-const add = require("./add");
-const remove = require("./remove");
-const update = require("./update");
-const get = require("./get");
+const addTask = require("./addTask");
+const removeTask = require("./removeTask");
+const updateTask = require("./updateTask");
+const getTask = require("./getTask");
 
 
 module.exports = {
-    add,
-    get,
-    remove,
-    update,
+    addTask,
+    getTask,
+    removeTask,
+    updateTask,
 }
