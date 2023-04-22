@@ -1,7 +1,7 @@
 const { User } = require("../../models");
 const { catchAsync } = require("../../utils");
 
-const cloudinary = require("../../middlewares/user/uploadImage");
+const uploadCloud = require("../../middlewares/user/uploadImage");
 
 const updateAvatar = catchAsync(async (req, res, next) => {
   const { _id } = req.user;
@@ -14,7 +14,7 @@ const updateAvatar = catchAsync(async (req, res, next) => {
       .json({ success: false, message: "unauthorized access!" });
 
   try {
-    const result = await cloudinary.uploader.upload(req.file.path, {
+    const result = await uploadCloud.uploader.upload(req.file.path, {
       public_id: `${_id}_profile`,
       width: 500,
       height: 500,
