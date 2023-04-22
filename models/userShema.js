@@ -23,7 +23,7 @@ const userShema = Schema(
       default: "",
     },
     birthday: {
-      type: String,
+      type: Date,
       default: "",
     },
     telegram: {
@@ -53,8 +53,7 @@ userShema.pre("save", async function (next) {
 });
 
 // Custom method
-userShema.methods.checkPassword = (candidate, hash) =>
-  bcrypt.compare(candidate, hash);
+userShema.methods.checkPassword = (candidate, hash) => bcrypt.compare(candidate, hash);
 
 const User = model("user", userShema);
 
@@ -72,10 +71,14 @@ const loginJoiSchema = Joi.object({
 const userPageJoiSchema = Joi.object({
   userName: Joi.string().max(16).required(),
   email: Joi.string().required(),
-  // phone: JoiPhone.string()
-  //   .phoneNumber({ defaultCountry: "UA", format: "e164" })
-  //   .validate("494322456"),
-  // birthday: Joi.date().format("YYYY-MM-DD"),
+  phone: Joi.string()
+    .trim()
+    .empty("")
+    .trim()
+    .min(7)
+    .max(13)
+    .pattern(/^[+]?\d{2,7}[(\- .\s]?\d{2,7}([)\- .\s]?\d{2,7})*$/),
+  birthday: Joi.date().greater(new Date("2020-12-01")),
   telegram: Joi.string().max(16),
 });
 
