@@ -1,13 +1,8 @@
 const express = require("express");
-// const multer = require("multer");
 
 const router = express.Router();
 
 const uploadImage = require("../../middlewares/user/uploadImage");
-
-// const storage = multer.memoryStorage();
-
-// const uploads = multer({ storage });
 
 const { user: ctrl } = require("../../controllers");
 
