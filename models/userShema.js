@@ -23,7 +23,7 @@ const userShema = Schema(
       default: "",
     },
     birthday: {
-      type: String,
+      type: Date,
       default: "",
     },
     telegram: {
@@ -53,30 +53,33 @@ userShema.pre("save", async function (next) {
 });
 
 // Custom method
-userShema.methods.checkPassword = (candidate, hash) =>
-  bcrypt.compare(candidate, hash);
+userShema.methods.checkPassword = (candidate, hash) => bcrypt.compare(candidate, hash);
 
 const User = model("user", userShema);
 
-const regJoiSchema = Joi.object({
-  name: Joi.string().max(16).required(),
-  email: Joi.string().required(),
-  password: Joi.string().min(6).required(),
-});
+const regJoiSchema = (data) => Joi.object({
+  name: Joi.string().min(4).max(16).required(),
+  email: Joi.string().min(4).max(255).required().email(),
+  password: Joi.string().min(6).max(30).required(),
+}).validate(data);
 
-const loginJoiSchema = Joi.object({
-  email: Joi.string().required(),
-  password: Joi.string().required(),
-});
+const loginJoiSchema = (data) => Joi.object({
+   email: Joi.string().min(4).max(255).required().email(),
+  password: Joi.string().min(6).max(30).required(),
+}).validate(data);
 
 const userPageJoiSchema = Joi.object({
-  userName: Joi.string().max(16).required(),
-  email: Joi.string().required(),
-  // phone: JoiPhone.string()
-  //   .phoneNumber({ defaultCountry: "UA", format: "e164" })
-  //   .validate("494322456"),
-  // birthday: Joi.date().format("YYYY-MM-DD"),
-  telegram: Joi.string().max(16),
+  name: Joi.string().min(4).max(16).required(),
+  email: Joi.string().min(4).max(255).required().email(),
+  phone: Joi.string()
+    .trim()
+    .empty("")
+    .trim()
+    .min(7)
+    .max(13)
+    .pattern(/^[+]?\d{2,7}[(\- .\s]?\d{2,7}([)\- .\s]?\d{2,7})*$/),
+  birthday: Joi.date().greater(new Date("2020-12-01")),
+  telegram: Joi.string().min(5).max(32),
 });
 
 /* const resendingJoiSchema = Joi.object({
