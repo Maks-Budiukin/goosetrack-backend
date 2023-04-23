@@ -3,6 +3,8 @@ const express = require("express");
 
 const router = express.Router();
 
+const uploadImage = require("../../middlewares/user/uploadImage");
+
 // const storage = multer.memoryStorage();
 
 // const uploads = multer({ storage });
@@ -19,6 +21,6 @@ router.get("/logout", ctrl.logout);
 
 router.patch("/info", ctrl.updateInfo);
 
-router.post("/info", ctrl.updateAvatar);
+router.post("/info", uploadImage.single("image"), ctrl.updateAvatar);
 
 module.exports = router;
