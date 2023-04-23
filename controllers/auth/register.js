@@ -3,6 +3,8 @@ const { User } = require("../../models");
 const { catchAsync } = require("../../utils");
 
 const register = catchAsync(async (req, res, next) => {
+console.log('регістрація')
+
   const { email, password, name } = req.body;
 
   const user = await User.findOne({ email });
