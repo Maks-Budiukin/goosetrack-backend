@@ -43,7 +43,7 @@ const taskShema = Schema(
   { versionKey: false, timestamps: true }
 );
 
-const Task = model("contact", taskShema);
+const Task = model("task", taskShema);
 
 const taskJoiSchema = Joi.object({
   titleTask: Joi.string().max(250).required(),
