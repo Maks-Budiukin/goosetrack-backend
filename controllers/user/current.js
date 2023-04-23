@@ -1,11 +1,17 @@
+const { User } = require("../../models");
 const { catchAsync } = require("../../utils");
 
 const current = catchAsync(async (req, res, next) => {
-  const user = req.user;
+  const {_id} = req.user;
 
-   user.password = null;
+const user = await User.findByIdAndUpdate(_id).select(
+    "-password -updatedAt -createdAt -token"
+  );
+
   res.status(200).json({
-    user
+     result: {
+      user
+    },
   });
 });
 
