@@ -10,6 +10,14 @@ const updateTask = catchAsync(async (req, res, next) => {
 
   const { id } = req.params;
 
+
+  const tasks = await Task.findById(id).select("ownerTask");
+  
+  const { _id } = req.user;
+
+  if (!(tasks.ownerTask.equals(_id))) return next(createHttpError.NotFound());
+  
+  
   const updatedTask = await Task.findByIdAndUpdate(id, req.body, {
     new: true,
   });
