@@ -4,35 +4,35 @@ const Joi = require("joi");
 
 const taskShema = Schema(
   {
-    titleTask: {
+    title: {
       type: String,
       required: true,
       // required: [true, "Set name for task"],
     },
-    dateTask: {
+    date: {
       type: Date,
       // type: String,
       // default: Date.now,
     },
-    startTimeTask: {
+    startTime: {
       type: String,
     },
-    endTimeTask: {
+    endTime: {
       type: String,
     },
-    ownerTask: {
+    owner: {
       type: Schema.Types.ObjectId,
       ref: "user",
       required: true,
     },
-    priorityTask: {
+    priority: {
       type: String,
       trim: true,
       enum: ["low", "medium", "high"],
       default: "low",
       required: true,
     },
-    categoryTask: {
+    category: {
       type: String,
       trim: true,
       enum: ["toDo", "inProgress", "done"],
@@ -46,19 +46,19 @@ const taskShema = Schema(
 const Task = model("task", taskShema);
 
 const taskJoiSchema = Joi.object({
-  titleTask: Joi.string().max(250).required(),
-  dateTask: Joi.date().greater(new Date("2020-12-01")).required(),
-  startTimeTask: Joi.string()
+  title: Joi.string().max(250).required(),
+  date: Joi.date().greater(new Date("2020-12-01")).required(),
+  startTime: Joi.string()
     .regex(/^([0-9]{2})\:([0-9]{2})$/)
     .required(),
-  endTimeTask: Joi.string()
+  endTime: Joi.string()
     .regex(/^([0-9]{2})\:([0-9]{2})$/)
     .required()
-    .min(Joi.ref("startTimeTask")),
+    .min(Joi.ref("startTime")),
   // priorityTask: Joi.string().only(["low", "medium", "high"]).required(),
-  priorityTask: Joi.string().empty("").required(),
+  priority: Joi.string().empty("").required(),
   // categoryTask: Joi.string().only(["toDo", "inProgress", "done"]).required(),
-  categoryTask: Joi.string().empty("").required(),
+  category: Joi.string().empty("").required(),
 });
 
 module.exports = {
