@@ -6,9 +6,11 @@ const addTask = catchAsync(async (req, res, next) => {
     ...req.body,
     owner: req.user._id,
   };
-  const newTask = await Task.create(newTaskData);
+  const newTask = await Task.create(newTaskData).select(
+    "-owner -updatedAt -createdAt"
+  );
 
-  res.status(200).json({
+  res.status(201).json({
     task: newTask,
   });
 });

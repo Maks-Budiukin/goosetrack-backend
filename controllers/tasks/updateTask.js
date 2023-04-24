@@ -18,7 +18,7 @@ const updateTask = catchAsync(async (req, res, next) => {
 
   const updatedTask = await Task.findByIdAndUpdate(id, req.body, {
     new: true,
-  });
+  }).select("-owner -updatedAt -createdAt");
 
   res.status(200).json({
     task: updatedTask,
