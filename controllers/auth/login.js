@@ -5,23 +5,25 @@ const { catchAsync, createSignToken } = require("../../utils");
 const login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
 
-  const user = await User.findOne({ email }).select(
+  const Newuser = await User.findOne({ email }).select(
     "+password -updatedAt -createdAt -token"
   );
 
   const err = createHttpError.Unauthorized("Email or password is wrong");
 
-  if (!user) return next(err);
+  if (!Newuser) return next(err);
 
-  const passwordIsValid = await user.checkPassword(password, user.password);
+  const passwordIsValid = await Newuser.checkPassword(password, Newuser.password);
 
   if (!passwordIsValid) return next(err);
 
-  user.password = null;
+  // user.password = null;
 
-  const token = createSignToken(user._id);
+  const token = createSignToken(Newuser._id);
 
-  await User.findByIdAndUpdate(user._id, { token });
+  const user = await User.findByIdAndUpdate(Newuser._id, { token }).select(
+    "-password -updatedAt -createdAt -token"
+  );
 
   res.json({
     result: {

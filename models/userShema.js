@@ -68,7 +68,7 @@ const loginJoiSchema = (data) => Joi.object({
   password: Joi.string().min(6).max(30).required(),
 }).validate(data);
 
-const userPageJoiSchema = Joi.object({
+const userPageJoiSchema = (data) => Joi.object({
   name: Joi.string().min(4).max(16).required(),
   email: Joi.string().min(4).max(255).required().email(),
   phone: Joi.string()
@@ -78,9 +78,9 @@ const userPageJoiSchema = Joi.object({
     .min(7)
     .max(13)
     .pattern(/^[+]?\d{2,7}[(\- .\s]?\d{2,7}([)\- .\s]?\d{2,7})*$/),
-  birthday: Joi.date().greater(new Date("2020-12-01")),
+  birthday: Joi.date().greater(new Date("1923-12-01")),
   telegram: Joi.string().min(5).max(32),
-});
+}).validate(data);
 
 /* const resendingJoiSchema = Joi.object({
   email: Joi.string().required().error(new Error("missing required field email")),

@@ -4,7 +4,7 @@ const { catchAsync } = require("../../utils");
 const addTask = catchAsync(async (req, res, next) => {
   const newTaskData = {
     ...req.body,
-    ownerTask: req.user,
+    ownerTask: req.user._id,
   };
   const newTask = await Task.create(newTaskData);
 
