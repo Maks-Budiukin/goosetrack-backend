@@ -228,7 +228,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/FullUserNoToken"
+                  "$ref": "#/components/schemas/FullUserToken"
                 }
               }
             }
@@ -769,7 +769,7 @@
       "FullUserNoToken": {
         "type": "object",
         "properties": {
-          "result": {
+          "data": {
             "type": "object",
             "properties": {
               "name": {
@@ -803,7 +803,7 @@
       "FullUserToken": {
         "type": "object",
         "properties": {
-          "result": {
+          "data": {
             "type": "object",
             "properties": {
               "name": {
