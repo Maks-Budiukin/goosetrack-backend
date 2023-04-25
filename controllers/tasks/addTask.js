@@ -11,7 +11,7 @@ const addTask = catchAsync(async (req, res, next) => {
   );
 
   res.status(201).json({
-    task: newTask,
+     data: newTask,
   });
 });
 

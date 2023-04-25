@@ -8,7 +8,7 @@ const { protect } = require("../../middlewares/user/protect");
 
 router.use(protect);
 
-router.get("/", ctrl.getTask);
+router.get("/:date", ctrl.getTask);
 
 router.post("/", ctrl.addTask);
 

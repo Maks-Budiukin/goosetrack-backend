@@ -21,7 +21,7 @@ const updateTask = catchAsync(async (req, res, next) => {
   }).select("-owner -updatedAt -createdAt");
 
   res.status(200).json({
-    task: updatedTask,
+    data: updatedTask,
   });
 });
 
