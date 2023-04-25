@@ -15,8 +15,13 @@ router.get("/current", ctrl.current);
 
 router.get("/logout", ctrl.logout);
 
-router.patch("/info", checkUpdateInfo, ctrl.updateInfo);
+router.patch(
+  "/info",
+  uploadImage.single("image"),
+  checkUpdateInfo,
+  ctrl.updateInfo
+);
 
-router.post("/info", uploadImage.single("image"), ctrl.updateAvatar);
+// router.post("/info", uploadImage.single("image"), ctrl.updateAvatar);
 
 module.exports = router;

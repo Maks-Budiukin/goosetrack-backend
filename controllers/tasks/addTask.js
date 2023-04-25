@@ -1,15 +1,17 @@
-const {Task} = require("../../models");
+const { Task } = require("../../models");
 const { catchAsync } = require("../../utils");
 
 const addTask = catchAsync(async (req, res, next) => {
   const newTaskData = {
     ...req.body,
-    ownerTask: req.user._id,
+    owner: req.user._id,
   };
-  const newTask = await Task.create(newTaskData);
+  const newTask = await Task.create(newTaskData).select(
+    "-owner -updatedAt -createdAt"
+  );
 
-  res.status(200).json({
-    todo: newTask,
+  res.status(201).json({
+    task: newTask,
   });
 });
 

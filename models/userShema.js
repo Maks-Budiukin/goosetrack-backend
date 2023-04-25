@@ -57,30 +57,31 @@ userShema.methods.checkPassword = (candidate, hash) => bcrypt.compare(candidate,
 
 const User = model("user", userShema);
 
-const regJoiSchema = (data) => Joi.object({
-  name: Joi.string().min(4).max(16).required(),
-  email: Joi.string().min(4).max(255).required().email(),
-  password: Joi.string().min(6).max(30).required(),
-}).validate(data);
+const regJoiSchema = (data) =>
+  Joi.object({
+    name: Joi.string().max(16).required(),
+    email: Joi.string().min(4).max(255).required().email(),
+    password: Joi.string().min(6).max(30).required(),
+  }).validate(data);
 
-const loginJoiSchema = (data) => Joi.object({
-   email: Joi.string().min(4).max(255).required().email(),
-  password: Joi.string().min(6).max(30).required(),
-}).validate(data);
+const loginJoiSchema = (data) =>
+  Joi.object({
+    email: Joi.string().min(4).max(255).required().email(),
+    password: Joi.string().min(6).max(30).required(),
+  }).validate(data);
 
-const userPageJoiSchema = (data) => Joi.object({
-  name: Joi.string().min(4).max(16).required(),
-  email: Joi.string().min(4).max(255).required().email(),
-  phone: Joi.string()
-    .trim()
-    .empty("")
-    .trim()
-    .min(7)
-    .max(13)
-    .pattern(/^[+]?\d{2,7}[(\- .\s]?\d{2,7}([)\- .\s]?\d{2,7})*$/),
-  birthday: Joi.date().greater(new Date("1923-12-01")),
-  telegram: Joi.string().min(5).max(32),
-}).validate(data);
+const userPageJoiSchema = (data) =>
+  Joi.object({
+    name: Joi.string().max(16),
+    email: Joi.string().min(4).max(255).email(),
+    phone: Joi.string()
+      .trim()
+      .allow("")
+      .max(13)
+      .pattern(/^[+]?\d{2,7}[(\- .\s]?\d{2,7}([)\- .\s]?\d{2,7})*$/),
+    birthday: Joi.date().greater(new Date("1923-12-01")),
+    telegram: Joi.string().max(32).allow(""),
+  }).validate(data);
 
 /* const resendingJoiSchema = Joi.object({
   email: Joi.string().required().error(new Error("missing required field email")),
