@@ -13,9 +13,7 @@ const updateInfo = catchAsync(async (req, res, next) => {
   }).select("-password -updatedAt -createdAt -token");
 
   res.status(200).json({
-    result: {
-      user,
-    },
+    data: user,
   });
 });
 
