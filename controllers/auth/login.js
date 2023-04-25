@@ -26,12 +26,14 @@ const login = catchAsync(async (req, res, next) => {
 
   console.log(token);
 
+
   const user = await User.findByIdAndUpdate(Newuser._id, { token }, {
     new: true,
   }).select(
     "-password -updatedAt -createdAt"
   );
 
+  
 
   res.json({
     data: user,
