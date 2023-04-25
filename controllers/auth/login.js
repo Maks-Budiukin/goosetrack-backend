@@ -13,7 +13,10 @@ const login = catchAsync(async (req, res, next) => {
 
   if (!Newuser) return next(err);
 
-  const passwordIsValid = await Newuser.checkPassword(password, Newuser.password);
+  const passwordIsValid = await Newuser.checkPassword(
+    password,
+    Newuser.password
+  );
 
   if (!passwordIsValid) return next(err);
 
@@ -22,14 +25,11 @@ const login = catchAsync(async (req, res, next) => {
   const token = createSignToken(Newuser._id);
 
   const user = await User.findByIdAndUpdate(Newuser._id, { token }).select(
-    "-password -updatedAt -createdAt -token"
+    "-password -updatedAt -createdAt"
   );
 
   res.json({
-    result: {
-      token,
-      user,
-    },
+    data: user,
   });
 });
 
