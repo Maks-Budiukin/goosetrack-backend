@@ -22,11 +22,16 @@ const login = catchAsync(async (req, res, next) => {
 
   // user.password = null;
 
-  const token = createSignToken(Newuser._id);
+  const token = await createSignToken(Newuser._id);
 
-  const user = await User.findByIdAndUpdate(Newuser._id, { token }).select(
+  console.log(token);
+
+  const user = await User.findByIdAndUpdate(Newuser._id, { token }, {
+    new: true,
+  }).select(
     "-password -updatedAt -createdAt"
   );
+
 
   res.json({
     data: user,
