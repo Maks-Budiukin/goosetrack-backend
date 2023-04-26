@@ -44,24 +44,61 @@ const taskShema = Schema(
 );
 
 const Task = model("task", taskShema);
+const oneDay = 86400000;
 
-const taskJoiSchema = Joi.object({
+const taskJoiSchema = (data) => Joi.object({
   title: Joi.string().max(250).required(),
-  date: Joi.date().greater(new Date("2020-12-01")).required(),
+  date: Joi.date().min(new Date() - oneDay).required(),
   startTime: Joi.string()
-    .regex(/^([0-9]{2})\:([0-9]{2})$/)
+    .regex(/^([0-9]{2}):([0-9]{2})$/)
     .required(),
   endTime: Joi.string()
-    .regex(/^([0-9]{2})\:([0-9]{2})$/)
-    .required()
-    .min(Joi.ref("startTime")),
-  // priorityTask: Joi.string().only(["low", "medium", "high"]).required(),
-  priority: Joi.string().empty("").required(),
-  // categoryTask: Joi.string().only(["toDo", "inProgress", "done"]).required(),
-  category: Joi.string().empty("").required(),
-});
+    .regex(/^([0-9]{2}):([0-9]{2})$/)
+    .required(),
+    // .min(Joi.ref("startTime")),
+  priority: Joi.string().valid(...["low", "medium", "high"]).required(),
+  // priority: Joi.string().empty("").required(),
+  category: Joi.string().valid(...["toDo", "inProgress", "done"]).required(),
+  // category: Joi.string().empty("").required(),
+}).custom((value, helpers) => {
+  const start = new Date(`2000-01-01T${value.startTime}:00`);
+  const end = new Date(`2000-01-01T${value.endTime}:00`);
+
+  if (end <= start) {
+    return helpers.error('any.invalid');
+  }
+  return value;
+}).messages({
+  'any.invalid': 'endTime should be greater than startTime'
+}).validate(data);
+
+const taskJoiUpdateSchema = (data) => Joi.object({
+  title: Joi.string().max(250),
+  startTime: Joi.string()
+    .regex(/^([0-9]{2}):([0-9]{2})$/)
+    ,
+  endTime: Joi.string()
+    .regex(/^([0-9]{2}):([0-9]{2})$/)
+    ,
+    // .min(Joi.ref("startTime")),
+  priority: Joi.string().valid(...["low", "medium", "high"]),
+  // priority: Joi.string().empty(""),
+  category: Joi.string().valid(...["toDo", "inProgress", "done"]),
+  // category: Joi.string().empty(""),
+}).custom((value, helpers) => {
+  const start = new Date(`2000-01-01T${value.startTime}:00`);
+  const end = new Date(`2000-01-01T${value.endTime}:00`);
+
+  if (end <= start) {
+    return helpers.error('any.invalid');
+  }
+  return value;
+}).messages({
+  'any.invalid': 'endTime should be greater than startTime'
+}).validate(data);
 
 module.exports = {
   Task,
   taskJoiSchema,
+  taskJoiUpdateSchema,
 };
