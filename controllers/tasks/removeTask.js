@@ -14,7 +14,7 @@ const removeTask = catchAsync(async (req, res, next) => {
   const removedTask = await Task.findByIdAndRemove(id);
 
   res.status(200).json({
-    data: removedTask,
+    task: removedTask,
   });
 });
 
