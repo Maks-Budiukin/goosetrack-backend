@@ -12,6 +12,7 @@ const removeTask = catchAsync(async (req, res, next) => {
   if (!tasks.owner.equals(_id)) return next(createHttpError.NotFound());
 
   const removedTask = await Task.findByIdAndRemove(id);
+  console.log(removedTask);
 
   res.status(200).json({
     task: removedTask,
