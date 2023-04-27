@@ -4,7 +4,12 @@ const { catchAsync } = require("../../utils");
 
 const getTask = catchAsync(async (req, res, next) => {
   const { _id } = req.user;
-  const { year, month } = req.query;
+
+  const date = new Date();
+  const currentYear = date.getFullYear();
+  const currentMonth = date.getMonth() + 1;
+  
+  const { year = currentYear, month = currentMonth } = req.query;
   
   // const tasks = await Task.find({ owner: _id }).select(
   //   "-owner -updatedAt -createdAt"
